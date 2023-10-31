@@ -19,6 +19,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import sun.util.cldr.CLDRLocaleDataMetaInfo;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -90,10 +91,8 @@ public class FishController {
     @RequestMapping("GetIPInfo")
     public AjaxJson getIPInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String clientIP = request.getRemoteAddr(); // 获取客户端的IP地址
-//        String clientIP = request.getHeader("X-Forwarded-For");
-        String url = "https://api.vore.top/api/IPdata?ip=" + clientIP;
+        String url = "http://ip-api.com/json/";
         String res = HttpUtil.get(url);
-        AjaxJson json = JSONUtil.toBean(res, AjaxJson.class);
-        return AjaxJson.getSuccessData(json);
+        return AjaxJson.getSuccessData(res);
     }
 }
