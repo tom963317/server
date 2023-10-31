@@ -91,6 +91,7 @@ public class FishController {
     @RequestMapping("GetIPInfo")
     public AjaxJson getIPInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String clientIP = request.getRemoteAddr(); // 获取客户端的IP地址
+        System.out.println(clientIP);
         String url = "http://ip-api.com/json/";
         String res = HttpUtil.get(url);
         return AjaxJson.getSuccessData(res);
