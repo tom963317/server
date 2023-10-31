@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project.visitor_log.VisitorLogMapper">
+
+
+	<!-- ================================== 查询相关 ================================== -->
+	<!-- select id, ip, ua, start_time, end_time, lang, fingerprint, count from visitor_log  -->
+	
+	<!-- 通用映射：手动模式 -->
+	<resultMap id="model" type="com.pj.project.visitor_log.VisitorLog">
+		<result property="id" column="id" />
+		<result property="ip" column="ip" />
+		<result property="ua" column="ua" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="lang" column="lang" />
+		<result property="fingerprint" column="fingerprint" />
+		<result property="count" column="count" />
+	</resultMap>
+	
+	<!-- 公共查询sql片段 -->
+	<sql id="select_sql">
+		select * 
+		from visitor_log 
+	</sql>
+
+	
+	<!-- 查集合 - 根据条件（参数为空时代表忽略指定条件） [G] -->
+	<select id="getList" resultMap="model">
+		<include refid="select_sql"></include>
+		<where>
+			<if test=' this.has("id") '> and id = #{id} </if>
+			<if test=' this.has("ip") '> and ip = #{ip} </if>
+			<if test=' this.has("ua") '> and ua = #{ua} </if>
+			<if test=' this.has("startTime") '> and start_time = #{startTime} </if>
+			<if test=' this.has("endTime") '> and end_time = #{endTime} </if>
+			<if test=' this.has("lang") '> and lang = #{lang} </if>
+			<if test=' this.has("fingerprint") '> and fingerprint = #{fingerprint} </if>
+			<if test=' this.has("count") '> and count = #{count} </if>
+		</where>
+		order by
+		<choose>
+			<when test='sortType == 1'> id desc </when>
+			<when test='sortType == 2'> ip desc </when>
+			<when test='sortType == 3'> ua desc </when>
+			<when test='sortType == 4'> start_time desc </when>
+			<when test='sortType == 5'> end_time desc </when>
+			<when test='sortType == 6'> lang desc </when>
+			<when test='sortType == 7'> fingerprint desc </when>
+			<when test='sortType == 8'> count desc </when>
+			<otherwise> id desc </otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

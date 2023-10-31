@@ -1,0 +1,9 @@
+netty:
+  host: 127.0.0.1
+  port: 9096
+server:
+  port: 8088
+main:
+  server: "http://127.0.0.1:8082"
+application:
+  name: "意大利"

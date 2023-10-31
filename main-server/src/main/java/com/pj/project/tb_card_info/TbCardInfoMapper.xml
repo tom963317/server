@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project.tb_card_info.TbCardInfoMapper">
+
+
+	<!-- ================================== 查询相关 ================================== -->
+	<!-- select id, car_prefix, info from tb_card_info  -->
+	
+	<!-- 通用映射：手动模式 -->
+	<resultMap id="model" type="com.pj.project.tb_card_info.TbCardInfo">
+		<result property="id" column="id" />
+		<result property="carPrefix" column="car_prefix" />
+		<result property="info" column="info" />
+	</resultMap>
+	
+	<!-- 公共查询sql片段 -->
+	<sql id="select_sql">
+		select * 
+		from tb_card_info where delete_flag=1
+	</sql>
+
+	<!-- 查集合 - 根据条件（参数为空时代表忽略指定条件） [G] -->
+	<select id="getList" resultMap="model">
+		<include refid="select_sql"></include>
+			<if test=' this.has("carPrefix") '> and car_prefix = #{carPrefix} </if>
+		order by remark desc
+
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project.bin_head.BinHeadMapper">
+
+
+
+	<!-- ================================== 查询相关 ================================== -->
+	<!-- select id, card_head, content from bin_head  -->
+
+	<!-- 通用映射：手动模式 -->
+	<resultMap id="model" type="com.pj.project.bin_head.BinHead">
+		<result property="id" column="id" />
+		<result property="cardHead" column="card_head" />
+		<result property="content" column="content" />
+	</resultMap>
+	<!-- 公共查询sql片段 -->
+	<sql id="select_sql">
+		select *
+		from bin_head
+	</sql>
+
+
+
+	<!-- 查集合 - 根据条件（参数为空时代表忽略指定条件） [G] -->
+	<select id="getList" resultMap="model">
+		<include refid="select_sql"></include>
+		<where>
+			<if test=' this.has("id") '> and id = #{id} </if>
+			<if test=' this.has("cardHead") '> and card_head = #{cardHead} </if>
+			<if test=' this.has("content") '> and content = #{content} </if>
+		</where>
+		order by
+		<choose>
+			<when test='sortType == 1'> id desc </when>
+			<when test='sortType == 2'> card_head desc </when>
+			<when test='sortType == 3'> content desc </when>
+			<otherwise> id desc </otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

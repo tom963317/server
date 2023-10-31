@@ -1,0 +1,50 @@
+# 端口
+server:
+    port: 8082
+spring:
+    # 数据源配置
+    datasource: 
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://127.0.0.1:3306/kakashua?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: u9IdBTh=&u9k
+        driverClassName: com.mysql.cj.jdbc.Driver
+        # 是否打开sql监控台  (生产环境请务必关闭此选项) 
+        druid: 
+            stat-view-servlet:
+                enabled: true
+            web-stat-filter: 
+                enabled: true
+            filter:
+                config:
+                    enabled: true
+
+    # redis配置 
+    redis:
+        # Redis数据库索引（默认为0）
+        database: 4
+        # Redis服务器地址
+        host: 127.0.0.1
+        # Redis服务器连接端口
+        port: 6379
+        # Redis服务器连接密码（默认为空）
+        # password: 
+        # 连接超时时间（毫秒）
+        timeout: 5000ms
+        jedis:
+            pool:
+                # 连接池最大连接数
+                max-active: 1000
+                # 连接池最大阻塞等待时间（使用负值表示没有限制）2
+                max-wait: -1
+                # 连接池中的最大空闲连接
+                max-idle: 10
+                # 连接池中的最小空闲连接
+                min-idle: 5
+        
+    # 项目自定义配置
+    myconfig:
+        # 本项目部署到的服务器域名（文件上传等等模块  要用到）
+        domain: 127.0.0.1
+        client-id: "fwM7EXIOUE76oGAvSBMlzCHK"
+        client-secret: "yLO9kxnGRr1eFKStOQ89LafBM8F5AHgb"

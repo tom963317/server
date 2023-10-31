@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project4sp.admin.SpAdminMapper">
+
+
+    <!-- 增 -->
+    <insert id="add">
+		insert into
+		sp_admin(name, phone,avatar, role_id, create_by_aid,create_time)
+		values (#{name}, #{phone},#{avatar} ,#{roleId}, #{createByAid},now())
+	</insert>
+    <update id="addCheck">
+		update  sp_admin set left_check_num=left_check_num+#{checkNum} where openid=#{openId}
+	</update>
+
+    <update id="addDou">
+		update  sp_admin set dou=dou+#{num} where id=#{id}
+	</update>
+    <update id="updateCheckNum">
+		update sp_admin
+		 set left_check_num=#{leftCheckNum}, total_check_num=#{totalCheckNum},
+		 today_check_num=#{todayCheckNum},today_left_check_num=#{todayLeftCheckNum}
+	</update>
+    <update id="resetCheckNum">
+		update sp_admin set today_left_check_num=#{initCheck} where type=2
+	</update>
+    <update id="updatePhone">
+		update  sp_admin set phone=#{phone} where id=#{id}
+	</update>
+
+    <update id="updateAccountAdmin">
+		update sp_admin set role_id=#{roleIds},account_id=#{accountIds} where id=#{id}
+	</update>
+
+
+    <!-- 删 -->
+    <delete id="delete">
+		delete from sp_admin where id = #{id} 
+	</delete>
+
+
+    <!-- 改 -->
+    <delete id="update">
+		update sp_admin set 
+		name = #{name} 
+		where id = #{id} 
+	</delete>
+
+    <!-- 自己改自己 -->
+    <!-- <delete id="updateBy">
+        update sp_admin set
+        name = #{name}
+        where id = #{id}
+    </delete> -->
+
+    <!-- =================== 查询相关 =================== -->
+
+    <!-- 通用映射 -->
+    <resultMap id="model" type="com.pj.project4sp.admin.SpAdmin">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="pw" column="pw"/>
+        <result property="phone" column="phone"/>
+        <result property="roleId" column="role_id"/>
+        <result property="status" column="status"/>
+        <result property="createByAid" column="create_by_aid"/>
+        <result property="createTime" column="create_time"/>
+        <result property="loginTime" column="login_time"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginCount" column="login_count"/>
+        <result property="roleName" column="role_name"/>
+    </resultMap>
+
+    <!-- 查询sql -->
+    <sql id="select_sql">
+		select *,
+		(select name from sp_role where id = sp_admin.role_id) as role_name 
+		from sp_admin 
+	</sql>
+
+
+    <!-- 查询，根据id -->
+    <select id="getById" resultMap="model">
+        <include refid="select_sql"></include>
+        where id = #{id}
+    </select>
+
+    <!-- 查询，根据名称 -->
+    <select id="getByName" resultMap="model">
+        <include refid="select_sql"></include>
+        where name = #{name}
+    </select>
+
+    <!-- 查询，根据名称 -->
+    <select id="getByPhone" resultMap="model">
+        <include refid="select_sql"></include>
+        where phone = #{phone}
+    </select>
+
+
+    <!-- 查询 -->
+    <select id="getList" resultType="com.pj.project4sp.admin.SpAdmin">
+        <include refid="select_sql"></include>
+        where 1=1
+        <if test=' this.has("id")  '>and id = #{id}</if>
+        <if test=' this.has("name")  '>and name like concat('%', #{name}, '%')</if>
+        <if test=' this.has("type")  '>and type =#{type}</if>
+        <if test=' this.has("accountId")  '>and account_id =#{accountId}</if>
+        <if test=' this.has("phone")  '>and phone like concat('%', #{phone}, '%')</if>
+        <if test=' this.has("roleId")  '>and role_id = #{roleId}</if>
+        <if test=' this.has("keyword")  '>and (name like concat('%', #{keyword}, '%') or phone like concat('%',
+            #{keyword}, '%') )
+        </if>
+        order by
+        <choose>
+            <when test='sort_type == 0'>id desc</when>
+            <when test='sort_type == 1'>id asc</when>
+            <when test='sort_type == 2'>login_time desc</when>
+            <when test='sort_type == 3'>login_count desc</when>
+            <otherwise>id desc</otherwise>
+        </choose>
+    </select>
+
+
+
+</mapper>

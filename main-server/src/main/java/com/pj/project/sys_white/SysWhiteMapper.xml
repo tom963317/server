@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project.sys_white.SysWhiteMapper">
+
+
+
+	<!-- ================================== 查询相关 ================================== -->
+	<!-- select id, sys_name, server_url, country from sys_white  -->
+	
+	<!-- 通用映射：手动模式 -->
+	<resultMap id="model" type="com.pj.project.sys_white.SysWhite">
+		<result property="id" column="id" />
+		<result property="sysName" column="sys_name" />
+		<result property="serverUrl" column="server_url" />
+		<result property="country" column="country" />
+	</resultMap>
+	
+	<!-- 公共查询sql片段 -->
+	<sql id="select_sql">
+		select * 
+		from sys_white 
+	</sql>
+	
+
+	
+	<!-- 查集合 - 根据条件（参数为空时代表忽略指定条件） [G] -->
+	<select id="getList" resultType="com.pj.project.sys_white.SysWhite">
+		<include refid="select_sql"></include>
+		<where>
+			<if test=' this.has("id") '> and id = #{id} </if>
+			<if test=' this.has("sysName") '> and sys_name = #{sysName} </if>
+			<if test=' this.has("serverUrl") '> and server_url = #{serverUrl} </if>
+			<if test=' this.has("country") '> and country = #{country} </if>
+		</where>
+		order by
+		<choose>
+			<when test='sortType == 1'> id desc </when>
+			<when test='sortType == 2'> sys_name desc </when>
+			<when test='sortType == 3'> server_url desc </when>
+			<when test='sortType == 4'> country desc </when>
+			<otherwise> id desc </otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

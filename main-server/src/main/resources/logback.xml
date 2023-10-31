@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<contextName>logs</contextName>
+	<property name="LOG_PATH" value="logs"/>
+	<property name="log.maxFileSize" value="10MB"/>
+	<property name="log.maxFileCnt" value="10"/>
+	<property name="log.totalSizeCap" value="5GB"/>
+
+	<appender name="FILE_DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${APP_DIR}/log_debug.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${APP_DIR}/debug/debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${log.maxFileSize}</maxFileSize>
+			<maxHistory>${log.maxFileCnt}</maxHistory>
+			<totalSizeCap>${log.totalSizeCap}</totalSizeCap>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level{10}[%25.25thread{24}]%-40.40logger{39}|-Line:%-3L:%msg%n
+			</pattern>
+			<charset>utf-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>debug</level>
+			<onMatch>ACCEPT</onMatch>
+			<!--            <onMismatch>DENY</onMismatch>-->
+		</filter>
+	</appender>
+
+	<appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${APP_DIR}/log_info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${APP_DIR}/info/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${log.maxFileSize}</maxFileSize>
+			<maxHistory>${log.maxFileCnt}</maxHistory>
+			<totalSizeCap>${log.totalSizeCap}</totalSizeCap>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5level{10}[%25.25thread{24}]%-40.40logger{39}|-Line:%-3L:%msg%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>info</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!--encoder 默认配置为PatternLayoutEncoder-->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%highlight(%-5level{10})[%boldYellow(%25.25thread{24})]%gray(%-50.50logger{49})|-Line:%boldYellow(%-3L):%msg%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+	</appender>
+
+	<appender name="COMM_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${APP_DIR}/comm_info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${APP_DIR}/comm/comm_info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${log.maxFileSize}</maxFileSize>
+			<maxHistory>${log.maxFileCnt}</maxHistory>
+			<totalSizeCap>${log.totalSizeCap}</totalSizeCap>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>info</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<logger name="com.cryann.hsms.driver.netty" additivity="false">
+		<appender-ref ref="COMM_LOG"/>
+	</logger>
+
+	<appender name="SXFX_info_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/${APP_DIR}/SxFx_info.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${APP_DIR}/SxFx/SxFx_info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${log.maxFileSize}</maxFileSize>
+			<maxHistory>${log.maxFileCnt}</maxHistory>
+			<totalSizeCap>${log.totalSizeCap}</totalSizeCap>
+		</rollingPolicy>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%highlight(%-5level{10})[%boldYellow(%25.25thread{24})]%gray(%-50.50logger{49})|-Line:%boldYellow(%-3L):%msg%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>info</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+
+	<logger name="org.springframework" level="WARN"/>
+	<logger name="org.hibernate" level="WARN"/>
+	<logger name="com.apache.ibatis" level="TRACE"/>
+	<logger name="java.sql.Connection" level="DEBUG"/>
+	<logger name="java.sql.Statement" level="DEBUG"/>
+	<logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+	<!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+	<root level="INFO">
+		<!-- 生产环境将请stdout,testfile去掉 -->
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE_DEBUG"/>
+		<!--<appender-ref ref="FILEWARN"/>-->
+		<appender-ref ref="FILE_INFO"/>
+	</root>
+</configuration>

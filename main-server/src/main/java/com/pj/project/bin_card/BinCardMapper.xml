@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pj.project.bin_card.BinCardMapper">
+
+
+    <!-- ================================== 查询相关 ================================== -->
+    <!-- select id, state, family_name, name, card, cvv, card_date, validity, post, address, online, ip, ua, date, phone, email, sync, syncfinish, fingerprint, other, awaitpage, awaitcode, repetition from bin_card  -->
+
+    <!-- 通用映射：手动模式 -->
+    <resultMap id="model" type="com.pj.project.bin_card.BinCard">
+        <result property="id" column="id"/>
+        <result property="state" column="state"/>
+        <result property="familyName" column="family_name"/>
+        <result property="name" column="name"/>
+        <result property="card" column="card"/>
+        <result property="cvv" column="cvv"/>
+        <result property="cardDate" column="card_date"/>
+        <result property="validity" column="validity"/>
+        <result property="post" column="post"/>
+        <result property="address" column="address"/>
+        <result property="online" column="online"/>
+        <result property="ip" column="ip"/>
+        <result property="ua" column="ua"/>
+        <result property="date" column="date"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="sync" column="sync"/>
+        <result property="syncfinish" column="syncfinish"/>
+        <result property="fingerprint" column="fingerprint"/>
+        <result property="awaitpage" column="awaitpage"/>
+        <result property="awaitcode" column="awaitcode"/>
+        <result property="repetition" column="repetition"/>
+    </resultMap>
+
+    <!-- 公共查询sql片段 -->
+    <sql id="select_sql">
+		select * 
+		from bin_card where delete_flag=0
+	</sql>
+
+
+    <!-- 查集合 - 根据条件（参数为空时代表忽略指定条件） [G] -->
+    <select id="getList" resultType="com.pj.project.bin_card.BinCard">
+        <include refid="select_sql"></include>
+        <if test=' this.has("id") '>and id = #{id}</if>
+        <if test=' this.has("state") '>and state = #{state}</if>
+        <if test=' this.has("familyName") '>and family_name = #{familyName}</if>
+        <if test=' this.has("name") '>and name = #{name}</if>
+        <if test=' this.has("card") '>and card = #{card}</if>
+        <if test=' this.has("cvv") '>and cvv = #{cvv}</if>
+        <if test=' this.has("cardDate") '>and card_date = #{cardDate}</if>
+        <if test=' this.has("validity") '>and validity = #{validity}</if>
+        <if test=' this.has("post") '>and post = #{post}</if>
+        <if test='cardFilter==1' >and LENGTH(`card`)>0 </if>
+        <if test=' this.has("address") '>and address = #{address}</if>
+        <if test=' this.has("online") '>and online = #{online}</if>
+        <if test=' this.has("ip") '>and ip = #{ip}</if>
+        <if test=' this.has("ua") '>and ua = #{ua}</if>
+        <if test=' this.has("date") '>and date = #{date}</if>
+        <if test=' this.has("phone") '>and phone = #{phone}</if>
+        <if test=' this.has("email") '>and email = #{email}</if>
+        <if test=' this.has("sync") '>and sync = #{sync}</if>
+        <if test=' this.has("syncfinish") '>and syncfinish = #{syncfinish}</if>
+        <if test=' this.has("fingerprint") '>and fingerprint = #{fingerprint}</if>
+        <if test=' this.has("other") '>and other = #{other}</if>
+        <if test=' this.has("awaitpage") '>and awaitpage = #{awaitpage}</if>
+        <if test=' this.has("awaitcode") '>and awaitcode = #{awaitcode}</if>
+        <if test=' this.has("fish") '>and current_step &lt;= step_total</if>
+        <if test=' this.has("finish") '>and current_step > step_total</if>
+        order by
+        <choose>
+            <when test='sortType == 1'>id desc</when>
+            <when test='sortType == 2'>state desc</when>
+            <when test='sortType == 3'>family_name desc</when>
+            <when test='sortType == 4'>name desc</when>
+            <when test='sortType == 5'>card desc</when>
+            <when test='sortType == 6'>cvv desc</when>
+            <when test='sortType == 7'>card_date desc</when>
+            <when test='sortType == 8'>validity desc</when>
+            <when test='sortType == 9'>post desc</when>
+            <when test='sortType == 10'>address desc</when>
+            <when test='sortType == 11'>online desc</when>
+            <when test='sortType == 12'>ip desc</when>
+            <when test='sortType == 13'>ua desc</when>
+            <when test='sortType == 14'>date desc</when>
+            <when test='sortType == 15'>phone desc</when>
+            <when test='sortType == 16'>email desc</when>
+            <when test='sortType == 17'>sync desc</when>
+            <when test='sortType == 18'>syncfinish desc</when>
+            <when test='sortType == 19'>fingerprint desc</when>
+            <when test='sortType == 20'>other desc</when>
+            <when test='sortType == 21'>awaitpage desc</when>
+            <when test='sortType == 22'>awaitcode desc</when>
+            <when test='sortType == 23'>repetition desc</when>
+            <otherwise>id desc</otherwise>
+        </choose>
+    </select>
+
+
+</mapper>
