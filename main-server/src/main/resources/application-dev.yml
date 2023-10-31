@@ -5,7 +5,7 @@ spring:
     # 数据源配置
     datasource: 
         type: com.alibaba.druid.pool.DruidDataSource
-        url: jdbc:mysql://127.0.0.1:3306/kakashua?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/kakashua?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&allowPublicKeyRetrieval=true
         username: root
 #        password: u9IdBTh=&u9k
         password: 123456
