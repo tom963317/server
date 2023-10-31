@@ -7,7 +7,8 @@ spring:
         type: com.alibaba.druid.pool.DruidDataSource
         url: jdbc:mysql://127.0.0.1:3306/kakashua?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
         username: root
-        password: u9IdBTh=&u9k
+#        password: u9IdBTh=&u9k
+        password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
         # 是否打开sql监控台  (生产环境请务必关闭此选项) 
         druid: 
