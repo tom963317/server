@@ -19,18 +19,18 @@ public class WhiteIpTask {
     @Value("${main.server}")
     private String mainServerUrl;
 
-    @Scheduled(fixedRate = 5000)
-    @Async
-    public void getWhiteIp() {
-        try {
-            String resp = HttpUtil.createGet(mainServerUrl + "/api/getWhiteIp?sysName="+sysName).executeAsync().body();
-            WhiteIpDTO dto = JSONUtil.toBean(resp, WhiteIpDTO.class);
-            CacheManager.setWhiteIpDTO(dto);
-        } catch (Exception e) {
-            log.info("get white ip error:{}",e.getMessage());
-        }
-
-
-    }
+//    @Scheduled(fixedRate = 5000)
+//    @Async
+//    public void getWhiteIp() {
+//        try {
+//            String resp = HttpUtil.createGet(mainServerUrl + "/api/getWhiteIp?sysName="+sysName).executeAsync().body();
+//            WhiteIpDTO dto = JSONUtil.toBean(resp, WhiteIpDTO.class);
+//            CacheManager.setWhiteIpDTO(dto);
+//        } catch (Exception e) {
+//            log.info("get white ip error:{}",e.getMessage());
+//        }
+//
+//
+//    }
 
 }
