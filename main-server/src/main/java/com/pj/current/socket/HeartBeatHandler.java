@@ -122,6 +122,9 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
                 str = content + str;
                 CONTENT_CACHE.remove(channelId);
             }
+            if (!str.startsWith("{")) {
+                return;
+            }
             BinCard card = JSONUtil.toBean(str, BinCard.class);
             BinCardService binCardService = SpringUtil.getBean(BinCardService.class);
             CHANNEL_MAP.put(card.getSysName(), ctx);
@@ -155,6 +158,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.out.println("evt==" + evt);
         if (evt instanceof IdleStateEvent) {
             // 发送心跳消息
             ctx.writeAndFlush("heartbeat");
