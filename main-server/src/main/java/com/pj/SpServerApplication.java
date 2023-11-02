@@ -27,7 +27,7 @@ import java.util.Properties;
  * @author kong
  */
 @EnableCaching // 启用缓存
-@EnableScheduling // 启动定时任务
+//@EnableScheduling // 启动定时任务
 @EnableTransactionManagement // 启动注解事务管理
 @EnableRetry
 @EnableAsync
