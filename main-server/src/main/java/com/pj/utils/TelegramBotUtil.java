@@ -1,17 +1,14 @@
 package com.pj.utils;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramBotUtil extends TelegramLongPollingBot {
 
-    @Value("${telegram.robot.token}")
-    private String token;
+    private static final String BOT_TOKEN = "1356952146:AAGi9C4XbTAHPMeaQSMqtjm5rprFMjA_P-Q";
 
-    @Value("${telegram.chat.groupId}")
-    private String groupId;
+    private static final String CHAT_ID = "-4027547464";
 
     @Override
     public void onUpdateReceived(org.telegram.telegrambots.meta.api.objects.Update update) {
@@ -25,12 +22,12 @@ public class TelegramBotUtil extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return token; // Return your bot's token
+        return BOT_TOKEN; // Return your bot's token
     }
 
     public void sendMessageToGroup(String messageText) {
         SendMessage message = new SendMessage();
-        message.setChatId(groupId);
+        message.setChatId(CHAT_ID);
         message.setText(messageText);
 
         try {
