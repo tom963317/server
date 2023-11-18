@@ -8,7 +8,7 @@ spring:
         url: jdbc:mysql://127.0.0.1:3306/kakashua?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&allowPublicKeyRetrieval=true
         username: root
 #        password: u9IdBTh=&u9k
-        password: 123456
+        password: .Qst303202
         driverClassName: com.mysql.cj.jdbc.Driver
         # 是否打开sql监控台  (生产环境请务必关闭此选项) 
         druid: 
