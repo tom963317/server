@@ -70,7 +70,7 @@ mybatis-plus:
 
 telegram:
     robot:
-        token: 1356952146:AAGi9C4XbTAHPMeaQSMqtjm5rprFMjA_P-Q
+        token: "1356952146:AAGi9C4XbTAHPMeaQSMqtjm5rprFMjA_P-Q"
 
     chat:
-        groupId: -4027547464
+        groupId: "-4027547464"
