@@ -7,10 +7,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramBotUtil extends TelegramLongPollingBot {
 
-    @Value("telegram.robot.token")
+    @Value("${telegram.robot.token}")
     private String token;
 
-    @Value("telegram.chat.groupId")
+    @Value("${telegram.chat.groupId}")
     private String groupId;
 
     @Override
