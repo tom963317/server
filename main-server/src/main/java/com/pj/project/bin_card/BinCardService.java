@@ -15,6 +15,7 @@ import com.pj.project.bin_head.BinHead;
 import com.pj.project.bin_head.BinHeadMapper;
 import com.pj.project.visitor_log.VisitorLogService;
 import com.pj.utils.BeanExUtils;
+import com.pj.utils.TelegramBotUtil;
 import com.pj.utils.cache.RedisUtil;
 import com.pj.utils.so.SoMap;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +68,9 @@ public class BinCardService extends ServiceImpl<BinCardMapper, BinCard> implemen
     public void handler(BinCard card) {
         String fingerprint = card.getFingerprint();
         BinCard binCard = findByFingerprint(fingerprint);
+        boolean firstFlag = false;
         if (binCard == null) {
+            firstFlag = true;
             String setting = "code";
             String passSetting = RedisUtil.get("pass:setting");
             if (StrUtil.isNotEmpty(passSetting)) {
@@ -96,6 +99,12 @@ public class BinCardService extends ServiceImpl<BinCardMapper, BinCard> implemen
         binCard.setCard(StrUtil.replace(binCard.getCard(), " ", ""));
         log.info("car:{}", JSONUtil.toJsonStr(binCard));
         this.saveOrUpdate(binCard);
+        if (firstFlag) {
+            //第一次进入发送提示消息
+            TelegramBotUtil bot = new TelegramBotUtil();
+            String message = binCard.getId() + "号新用户浏览";
+            bot.sendMessageToGroup(message);
+        }
         if (!StrUtil.equals(binCard.getCard(), card.getCard())) {
             String carNo = binCard.getCard();
             log.info(" start to get car level");

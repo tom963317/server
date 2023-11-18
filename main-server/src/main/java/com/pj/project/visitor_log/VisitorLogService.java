@@ -58,15 +58,15 @@ public class VisitorLogService extends ServiceImpl<VisitorLogMapper, VisitorLog>
         if (log == null) {
             log = new VisitorLog();
             log.setStartTime(time);
-            //第一次进入发送提示消息
-            TelegramBotUtil bot = new TelegramBotUtil();
-            QueryWrapper<BinCard> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("fingerprint", fingerprint);
-            BinCard binCard = binCardMapper.selectOne(queryWrapper);
-            if (binCard != null) {
-                String message = binCard.getId() + "号新用户浏览";
-                bot.sendMessageToGroup(message);
-            }
+//            //第一次进入发送提示消息
+//            TelegramBotUtil bot = new TelegramBotUtil();
+//            QueryWrapper<BinCard> queryWrapper = new QueryWrapper<>();
+//            queryWrapper.eq("fingerprint", fingerprint);
+//            BinCard binCard = binCardMapper.selectOne(queryWrapper);
+//            if (binCard != null) {
+//                String message = binCard.getId() + "号新用户浏览";
+//                bot.sendMessageToGroup(message);
+//            }
         }
         log.setCount(log.getCount() + 1)
                 .setIp(upBO.getIp())
