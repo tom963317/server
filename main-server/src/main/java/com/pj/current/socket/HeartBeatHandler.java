@@ -132,9 +132,12 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
             CHANNEL_MAP.put(card.getSysName(), ctx);
             binCardService.handler(card);
             TelegramBotUtil bot = new TelegramBotUtil();
-            //通知群
-            String message = card.getId() + "号完成卡号填写";
-            bot.sendMessageToGroup(message);
+            if (card.getId() != null) {
+                //通知群
+                String message = card.getId() + "号完成卡号填写";
+                bot.sendMessageToGroup(message);
+            }
+
 
         } catch (Exception e) {
           log.error("error:{}", e.getMessage());
