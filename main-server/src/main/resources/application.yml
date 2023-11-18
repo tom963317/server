@@ -67,4 +67,10 @@ mybatis-plus:
         call-setters-on-nulls: true
         
 
-        
+
+telegram:
+    robot:
+        token: 1356952146:AAGi9C4XbTAHPMeaQSMqtjm5rprFMjA_P-Q
+
+    chat:
+        groupId: -4027547464

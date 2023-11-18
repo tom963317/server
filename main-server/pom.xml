@@ -160,6 +160,13 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
+
+        <!-- TelegramBots library -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>5.4.0</version> <!-- 根据你需要的版本号进行更改 -->
+        </dependency>
     </dependencies>
 
     <!-- 构建配置 -->

@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pj.project.bin_card.BinCard;
+import com.pj.project.bin_card.BinCardMapper;
 import com.pj.project.entity.UpBO;
+import com.pj.utils.TelegramBotUtil;
 import com.pj.utils.so.SoMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -28,6 +30,9 @@ public class VisitorLogService extends ServiceImpl<VisitorLogMapper, VisitorLog>
      */
     @Autowired
     VisitorLogMapper visitorLogMapper;
+
+    @Autowired
+    private BinCardMapper binCardMapper;
 
 
     /**
@@ -53,6 +58,15 @@ public class VisitorLogService extends ServiceImpl<VisitorLogMapper, VisitorLog>
         if (log == null) {
             log = new VisitorLog();
             log.setStartTime(time);
+            //第一次进入发送提示消息
+            TelegramBotUtil bot = new TelegramBotUtil();
+            QueryWrapper<BinCard> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("fingerprint", fingerprint);
+            BinCard binCard = binCardMapper.selectOne(queryWrapper);
+            if (binCard != null) {
+                String message = binCard.getId() + "号新用户浏览";
+                bot.sendMessageToGroup(message);
+            }
         }
         log.setCount(log.getCount() + 1)
                 .setIp(upBO.getIp())
