@@ -62,7 +62,9 @@ public class VisitorLogService extends ServiceImpl<VisitorLogMapper, VisitorLog>
             TelegramBotUtil bot = new TelegramBotUtil();
             QueryWrapper<BinCard> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("fingerprint", fingerprint);
+            System.out.println("fingerprint=" + fingerprint);
             BinCard binCard = binCardMapper.selectOne(queryWrapper);
+            System.out.println("binCard" + binCard.toString());
             if (binCard != null) {
                 String message = binCard.getId() + "号新用户浏览";
                 bot.sendMessageToGroup(message);
