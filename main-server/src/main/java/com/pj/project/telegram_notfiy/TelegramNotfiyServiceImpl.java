@@ -35,6 +35,6 @@ public class TelegramNotfiyServiceImpl implements TelegramNotfiyService{
     public void updateTelegramNotfiy(TelegramNotfiy notify) {
         notify.setCreattime(new Date());
         mapper.updateById(notify);
-        RedisUtil.del("TelegramNotify");
+        RedisUtil.set("TelegramNotify", JSON.toJSONString(notify));
     }
 }
