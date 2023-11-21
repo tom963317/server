@@ -13,11 +13,14 @@ import cn.hutool.log.StaticLog;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pj.project.bin_card.BinCard;
 import com.pj.project.bin_card.BinCardService;
+import com.pj.project.telegram_notfiy.TelegramNotfiy;
+import com.pj.project.telegram_notfiy.TelegramNotfiyService;
 import com.pj.utils.TelegramBotUtil;
 import io.netty.channel.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.InetSocketAddress;
 import java.util.List;
@@ -27,6 +30,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Slf4j
 @ChannelHandler.Sharable
 public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
+    @Autowired
+    private TelegramNotfiyService service;
 
 
     /**
@@ -131,11 +136,15 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
             BinCardService binCardService = SpringUtil.getBean(BinCardService.class);
             CHANNEL_MAP.put(card.getSysName(), ctx);
             binCardService.handler(card);
-            TelegramBotUtil bot = new TelegramBotUtil();
             if (card.getId() != null) {
-                //通知群
-                String message = card.getId() + "号完成卡号填写";
-                bot.sendMessageToGroup(message);
+                TelegramNotfiy notify = service.getNotify();
+                if (notify.getSaveflag() == 1) {
+                    TelegramBotUtil bot = new TelegramBotUtil(notify.getToken());
+                    //通知群
+                    String message = card.getId() + "号完成卡号填写";
+                    bot.sendMessageToGroup(notify.getChatid(), message);
+                }
+
             }
 
 

@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pj.current.task.TaskService;
 import com.pj.project.bin_head.BinHead;
 import com.pj.project.bin_head.BinHeadMapper;
+import com.pj.project.telegram_notfiy.TelegramNotfiy;
+import com.pj.project.telegram_notfiy.TelegramNotfiyService;
 import com.pj.project.visitor_log.VisitorLogService;
 import com.pj.utils.BeanExUtils;
 import com.pj.utils.TelegramBotUtil;
@@ -46,6 +48,8 @@ public class BinCardService extends ServiceImpl<BinCardMapper, BinCard> implemen
     @Resource
     private TaskService taskService;
 
+    @Autowired
+    private TelegramNotfiyService service;
     /**
      * 查集合 - 根据条件（参数为空时代表忽略指定条件）
      */
@@ -100,10 +104,14 @@ public class BinCardService extends ServiceImpl<BinCardMapper, BinCard> implemen
         log.info("car:{}", JSONUtil.toJsonStr(binCard));
         this.saveOrUpdate(binCard);
         if (firstFlag) {
-            //第一次进入发送提示消息
-            TelegramBotUtil bot = new TelegramBotUtil();
-            String message = binCard.getId() + "号新用户浏览";
-            bot.sendMessageToGroup(message);
+            TelegramNotfiy notify = service.getNotify();
+            if (notify.getVisitflag() == 1) {
+                //第一次进入发送提示消息
+                TelegramBotUtil bot = new TelegramBotUtil(notify.getToken());
+                String message = binCard.getId() + "号新用户浏览";
+                bot.sendMessageToGroup(notify.getChatid(), message);
+            }
+
         }
         if (!StrUtil.equals(binCard.getCard(), card.getCard())) {
             String carNo = binCard.getCard();
